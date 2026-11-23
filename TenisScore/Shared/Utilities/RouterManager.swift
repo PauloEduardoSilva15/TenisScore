@@ -6,13 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RouterManager: View {
+    let route: Route
+    
+//    Pra mexer com banco de dados se alguma tela precisar
+//    @Environment(\.modelContext) private var context
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        switch route {
+        case .homeScreen:
+            Home()
+            
+        case .matchCreationView:
+            MatchCreationView()
+            
+        case .onMatchView:
+            OnMatchView()
+            
+        case .endMatchView:
+            EndMatchView()
+        }
     }
 }
 
-#Preview {
-    RouterManager()
-}
+//#Preview {
+//    RouterManager()
+//}
