@@ -7,4 +7,13 @@
 
 import Foundation
 
-enum Route
+enum Route: Hashable {
+    case homeScreen
+    case matchCreationView
+    case onMatchView
+    case endMatchView
+}
+
+extension Route: Identifiable {
+    var id: Self { self }
+}
