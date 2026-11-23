@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct MatchCreationView: View {
+    @Environment(AppRouter.self) private var router
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Criar partida")
+        
+        Button("Jogar partida") {
+            router.push(.onMatchView)
+        }
     }
 }
 

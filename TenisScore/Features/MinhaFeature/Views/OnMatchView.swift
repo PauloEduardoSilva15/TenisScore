@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct OnMatchView: View {
+    @Environment(AppRouter.self) private var router
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Placar da partida")
+        
+        Button("ENCERRAR partida") {
+            router.push(.endMatchView)
+        }
     }
 }
 
