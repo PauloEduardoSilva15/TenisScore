@@ -8,15 +8,18 @@
 import Foundation
 import SwiftData
 
+/// Model representing a player
 @Model
 class Player {
-    @Attribute(.unique)
-    var id: UUID
     
+    /// Unique Identifier for this player
+    @Attribute(.unique)
+    var id: UUID = UUID()
+    
+    /// The name of this player
     var name: String
     
-    init(id: UUID, name: String) {
-        self.id = id
+    init(name: String) {
         self.name = name
     }
 }
