@@ -15,7 +15,9 @@ class MatchSet {
     /// Unique identifier for this set
     @Attribute(.unique)
     var id: UUID = UUID()
-    
+    var isEnd: Bool {
+        return games.count == 6 && games.last?.isEnd == true
+    }
     /// List of games in this set
     var games: [Game] = []
     
@@ -24,4 +26,5 @@ class MatchSet {
             Game(matchSides: matchSides, whoServes: whoServes)
         ]
     }
+    
 }

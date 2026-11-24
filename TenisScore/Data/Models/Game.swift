@@ -17,11 +17,24 @@ class Game {
     @Attribute(.unique)
     var id: UUID = UUID()
     
-    /// Points for each side of the game
     var points: [GameSidePoints]
     
-    /// Who serves during this game
-    var whoServes: MatchSide
+    var whoServes: Player
+    
+    var isImTieBreak: Bool
+    
+    
+    var isEnd: Bool {
+        if points[0].points > 4 || points[1].points > 4{
+            if points[0].points - points[1].points == 2 ||
+            points[1].points - points[0].points == 2{
+                return true
+            }
+            
+        }
+        return false
+    }
+    
     
     /// Who is winning currently in this game
     var whoIsWinning: MatchSide {
@@ -45,5 +58,37 @@ class Game {
         }
         
         self.whoServes = whoServes
+    }
+    func incrementPoint(sideId: UUID){
+        for point in points {
+            if point.matchSide.id == sideId{
+                point.points += 1
+                return
+            }
+        }
+    }
+    func incrementPoint(sideName: String){
+        for point in points {
+            if point.matchSide.name == sideName{
+                point.points += 1
+                return
+            }
+        }
+    }
+    func decrementPoint(sideId: UUID){
+        for point in points {
+            if point.matchSide.id == sideId && point.points >= 1{
+                point.points -= 1
+                return
+            }
+        }
+    }
+    func decrementPoint(sideName: String){
+        for point in points {
+            if point.matchSide.name == sideName && point.points >= 1{
+                point.points -= 1
+                return
+            }
+        }
     }
 }

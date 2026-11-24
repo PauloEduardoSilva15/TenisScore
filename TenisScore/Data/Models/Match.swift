@@ -36,6 +36,17 @@ class Match {
 
     /// All sets of the current match
     var sets: [MatchSet]
+    var isEnd: Bool{
+        if sets.count == setQuantity.rawValue{
+            if !tieBreaker{
+                status = .completed
+                return true
+            }
+            //sets.last?.games.append(Game(UUID(), ))
+        }
+        
+        return false
+    }
 
     init(
         status: MatchStatus,
