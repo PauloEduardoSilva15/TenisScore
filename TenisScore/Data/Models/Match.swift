@@ -61,22 +61,17 @@ class Match {
         setQuantity: MatchSetQuantity,
         tieBreaker: Bool = true,
         randomizePlayers: Bool = true
-    ) {
+    ) throws {
         self.status = .inProgress
         self.tieBreaker = tieBreaker
         self.date = Date()
         self.playerQuantity = playerQuantity
         self.setQuantity = setQuantity
 
-        let sides: [MatchSide]
-        do {
-            sides = try MatchSide.makeSides(
-                players: players,
-                playerQuantity: playerQuantity
-            )
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+        let sides = try MatchSide.makeSides(
+            players: players,
+            playerQuantity: playerQuantity
+        )
 
         self.sides = sides
         self.sets = [MatchSet(matchSides: sides, whoServes: nil)]
