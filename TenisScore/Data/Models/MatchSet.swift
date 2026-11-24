@@ -15,9 +15,13 @@ class MatchSet {
     var id: UUID
     
     var games: [Game]
+    var isEnd: Bool {
+        return games.count == 6 && games.last?.isEnd == true
+    }
     
     init(id: UUID, games: [Game]) {
         self.id = id
         self.games = games
     }
+    
 }

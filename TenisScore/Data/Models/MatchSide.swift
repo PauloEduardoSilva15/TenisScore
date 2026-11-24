@@ -13,11 +13,13 @@ import SwiftData
 class MatchSide {
     @Attribute(.unique)
     var id: UUID
+    var name: String
     
-    var players: Player
+    var players: [Player]
     
-    init(id: UUID, players: Player) {
+    init(id: UUID, name: String, players: [Player]) {
         self.id = id
+        self.name = name
         self.players = players
     }
 }

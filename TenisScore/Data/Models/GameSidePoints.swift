@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class SidePoints {
+class GameSidePoints {
     @Attribute(.unique)
     var id: UUID
     

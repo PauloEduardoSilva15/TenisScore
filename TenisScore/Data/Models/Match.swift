@@ -20,6 +20,17 @@ class Match {
     var setQuantity: MatchSetQuantity
     var sides: [MatchSide]
     var sets: [MatchSet]
+    var isEnd: Bool{
+        if sets.count == setQuantity.rawValue{
+            if !tieBreaker{
+                status = .completed
+                return true
+            }
+            //sets.last?.games.append(Game(UUID(), ))
+        }
+        
+        return false
+    }
     
     init(id: UUID, status: MatchStatus, tieBreaker: Bool, date: Date, playerQuantity: MatchPlayerQuantity, setQuantity: MatchSetQuantity, sides: [MatchSide], sets: [MatchSet]) {
         self.id = id
