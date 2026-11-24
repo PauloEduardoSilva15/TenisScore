@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+/// View responsável por gerenciar as rotas. Ela recebe uma rota e armazena na variável `route`. É utilizado um `switch case` para cada opção de rota possível declarada no enum de rotas `Route`. A partir daí, cada tela é chamada de acordo com a rota recebida pela view.
 struct RouterManager: View {
     let route: Route
     
@@ -30,7 +31,3 @@ struct RouterManager: View {
         }
     }
 }
-
-//#Preview {
-//    RouterManager()
-//}
