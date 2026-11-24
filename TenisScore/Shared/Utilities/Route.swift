@@ -7,7 +7,9 @@
 
 import Foundation
 
-/// Enum de Rotas. Deve conter `case` para cada view e sheet que será utilizada.
+/// Enum de Rotas.
+///
+/// Este enum determina o tipo `Route` e deve ter um `case` para cada view ou sheet que será utilizada pelo app
 enum Route: Hashable {
     case homeScreen
     case matchCreationView
@@ -15,6 +17,7 @@ enum Route: Hashable {
     case endMatchView
 }
 
+/// Esta extensão tem como objetivo transformar o enum `Route` em `Identifiable`, utilizando cada case como seu próprio `id`.
 extension Route: Identifiable {
     var id: Self { self }
 }
