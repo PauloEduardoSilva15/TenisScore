@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Enum de Rotas. Deve conter `case` para cada view e sheet que será utilizada.
 enum Route: Hashable {
     case homeScreen
     case matchCreationView
