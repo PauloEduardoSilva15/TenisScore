@@ -1,11 +1,17 @@
 import SwiftUI
 
 @main struct MyApp: App {
-    /// Instancia o `AppRouter()` como `@State` armazenado na variável `router`, para atualizar a interface automaticamente sempre que o router for alterado.
+    /// Stores the application's navigation router.
+    ///
+    /// The router is declared as `@State` so SwiftUI can react to
+    /// whenever the navigation state changes.
     @State private var router = AppRouter()
     
     var body: some Scene {
         WindowGroup {
+            /// Root navigation container for the application.
+            ///
+            /// Navigation is driven by `AppRouter` through its `NavigationPath`.
             NavigationStack(path: $router.path) {
                 Group {
                     Home()
