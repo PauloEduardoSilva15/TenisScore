@@ -21,7 +21,7 @@ class MatchSet {
     /// List of games in this set
     var games: [Game] = []
     
-    init(matchSides: [MatchSide], whoServes: MatchSide?) {
+    init(matchSides: [MatchSide], whoServes: Player?) {
         self.games = [
             Game(matchSides: matchSides, whoServes: whoServes)
         ]

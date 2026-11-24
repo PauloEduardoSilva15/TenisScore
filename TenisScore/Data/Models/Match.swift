@@ -71,7 +71,8 @@ class Match {
         playerQuantity: MatchPlayerQuantity,
         setQuantity: MatchSetQuantity,
         tieBreaker: Bool = true,
-        randomizePlayers: Bool = true
+        randomizePlayers: Bool = true,
+        teamNames: [String] = ["Team 1", "Team 2"]
     ) throws {
         self.status = .inProgress
         self.tieBreaker = tieBreaker
@@ -80,12 +81,13 @@ class Match {
         self.setQuantity = setQuantity
 
         let sides = try MatchSide.makeSides(
+            teamNames: teamNames,
             players: players,
             playerQuantity: playerQuantity
         )
 
         self.sides = sides
-        self.sets = [MatchSet(matchSides: sides, whoServes: nil)]
+        self.sets = [MatchSet(matchSides: sides, whoServes: sides.randomElement()!.players.randomElement()!)]
     }
 
 }

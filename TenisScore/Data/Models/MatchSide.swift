@@ -28,6 +28,7 @@ class MatchSide {
 /// Extension
 extension MatchSide {
     public static func makeSides(
+        teamNames: [String],
         players: [Player],
         playerQuantity: MatchPlayerQuantity,
         randomizePlayers: Bool = true
@@ -45,13 +46,13 @@ extension MatchSide {
                 let player2 = abs((player1 - 1))
 
                 return [
-                    MatchSide(players: [players[player1]]),
-                    MatchSide(players: [players[player2]]),
+                    MatchSide(name: teamNames[0], players: [players[player1]]),
+                    MatchSide(name: teamNames[1], players: [players[player2]]),
                 ]
             } else {
                 return [
-                    MatchSide(players: [players[0]]),
-                    MatchSide(players: [players[1]]),
+                    MatchSide(name: teamNames[0], players: [players[0]]),
+                    MatchSide(name: teamNames[1], players: [players[1]]),
                 ]
             }
 
@@ -75,18 +76,24 @@ extension MatchSide {
                 }
 
                 return [
-                    MatchSide(players: [
-                        players[curPlayers[0]], players[curPlayers[1]],
-                    ]),
-                    MatchSide(players: [
-                        players[curPlayers[2]], players[curPlayers[3]],
-                    ]),
+                    MatchSide(
+                        name: teamNames[0],
+                        players: [
+                            players[curPlayers[0]], players[curPlayers[1]],
+                        ]
+                    ),
+                    MatchSide(
+                        name: teamNames[1],
+                        players: [
+                            players[curPlayers[2]], players[curPlayers[3]],
+                        ]
+                    ),
                 ]
 
             } else {
                 return [
-                    MatchSide(players: [players[0], players[1]]),
-                    MatchSide(players: [players[2], players[3]]),
+                    MatchSide(name: teamNames[0], players: [players[0], players[1]]),
+                    MatchSide(name: teamNames[1], players: [players[2], players[3]]),
                 ]
             }
         }
