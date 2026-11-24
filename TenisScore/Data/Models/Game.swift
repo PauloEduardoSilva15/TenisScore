@@ -45,20 +45,23 @@ class Game {
         }
     }
     
-    init(matchSides: [MatchSide], whoServes: MatchSide? = nil) {
+    init(matchSides: [MatchSide], whoServes: Player? = nil, isImTieBreak: Bool = false) {
         
         self.points = [
             GameSidePoints(matchSide: matchSides[0]),
             GameSidePoints(matchSide: matchSides[1])
         ]
         
+        self.isImTieBreak = isImTieBreak
+        
         guard let whoServes = whoServes else {
-            self.whoServes = matchSides.randomElement()!
+            self.whoServes = matchSides.randomElement()!.players.randomElement()!
             return
         }
         
         self.whoServes = whoServes
     }
+    
     func incrementPoint(sideId: UUID){
         for point in points {
             if point.matchSide.id == sideId{
