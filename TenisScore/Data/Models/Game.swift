@@ -13,9 +13,24 @@ class Game {
     @Attribute(.unique)
     var id: UUID
     
-    var points: [SidePoints]
+    var points: [GameSidePoints]
     
-    var whoServes: MatchSide
+    var whoServes: Player
+    
+    var isImTieBreak: Bool
+    
+    
+    var isEnd: Bool {
+        if points[0].points > 4 || points[1].points > 4{
+            if (points[0].points - 2) == points[1].points ||
+            (points[1].points - 2) == points[0].points{
+                return true
+            }
+            
+        }
+        return false
+    }
+    
     
     var whoIsWinning: MatchSide {
         if points[0].points > points[1].points {
@@ -25,15 +40,20 @@ class Game {
         }
     }
     
-    init(id: UUID, points: [SidePoints], whoServes: MatchSide?) {
+    
+    init(id: UUID, points: [GameSidePoints], whoServes: Player?, isImTieBreak: Bool? = false) {
         self.id = id
         self.points = points
+        self.isImTieBreak = isImTieBreak ?? false
+        
         
         guard let whoServes = whoServes else {
-            self.whoServes = points.randomElement()!.matchSide
+            self.whoServes = points.randomElement()!.matchSide.players.randomElement()!
             return
         }
         
         self.whoServes = whoServes
+        
     }
+    
 }
