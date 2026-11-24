@@ -36,6 +36,17 @@ class Match {
 
     /// All sets of the current match
     var sets: [MatchSet]
+    var isEnd: Bool{
+        if sets.count == setQuantity.rawValue{
+            if !tieBreaker{
+                status = .completed
+                return true
+            }
+            //sets.last?.games.append(Game(UUID(), ))
+        }
+        
+        return false
+    }
 
     init(
         status: MatchStatus,
@@ -61,22 +72,17 @@ class Match {
         setQuantity: MatchSetQuantity,
         tieBreaker: Bool = true,
         randomizePlayers: Bool = true
-    ) {
+    ) throws {
         self.status = .inProgress
         self.tieBreaker = tieBreaker
         self.date = Date()
         self.playerQuantity = playerQuantity
         self.setQuantity = setQuantity
 
-        let sides: [MatchSide]
-        do {
-            sides = try MatchSide.makeSides(
-                players: players,
-                playerQuantity: playerQuantity
-            )
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+        let sides = try MatchSide.makeSides(
+            players: players,
+            playerQuantity: playerQuantity
+        )
 
         self.sides = sides
         self.sets = [MatchSet(matchSides: sides, whoServes: nil)]

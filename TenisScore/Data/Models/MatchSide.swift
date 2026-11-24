@@ -15,11 +15,12 @@ class MatchSide {
     /// Unique Identifier for this match side
     @Attribute(.unique)
     var id: UUID = UUID()
-
+    var name: String
     /// List of players in this side
     var players: [Player]
 
-    init(players: [Player]) {
+    init(name: String, players: [Player]) {
+        self.name = name
         self.players = players
     }
 }
