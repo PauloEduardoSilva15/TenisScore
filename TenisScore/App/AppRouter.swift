@@ -8,54 +8,58 @@
 import Observation
 import SwiftUI
 
-/// Classe responsável pelos métodos de navegação.
+/// Handles the application's navigation flow.
 ///
-/// Inicia o `NavigationPath()` e implementa métodos de adicionar uma nova rota ao path, remover a última rota adicionada ao path e limpar o path removendo todas as rotas na lista.
-/// 
-/// A classe também tem a variável `actualSheet`, utilizada para mostrar uma sheet com os métodos `showSheet(_:)` e `closeSheet()`.
+/// Manages the navigation stack through a `NavigationPath`,
+/// providing methods to push, pop, and clear routes.
+///
+/// The router also manages modal presentation through
+/// `actualSheet`, allowing sheets to be presented and dismissed.
 @Observable
 final class AppRouter {
-    /// Cria e inicia o NavigationPath
+    /// Navigation stack used by `NavigationStack`.
     var path = NavigationPath()
     
-    /// Guarda a sheet atual, caso houver
-    var actualSheet: Route?
+    /// Currently presented sheet, if any.
+    var currentSheet: Route?
     
-    /// Adiciona uma rota ao path
-    /// Utiliza o método `.append` aplicado ao `path` para adicionar a rota
-    /// - Parameters:
-    ///     - route: Uma das rotas do enum `Route`.
+    /// Pushes a new route onto the navigation stack.
+    ///
+    /// - Parameter route: The destination route to be presented.
     func push(_ route: Route) {
         path.append(route)
     }
     
-    /// Remove a última rota que foi adiciona ao path
-    /// - Utiliza o método `.removeLast()` aplicado ao `path` para remover a última rota adicionada
+    /// Removes the most recently pushed route from the navigation stack.
     func pop() {
         path.removeLast()
     }
     
-    /// Limpa o path de navegação, removendo todas as rotas.
-    /// - Utiliza o método `.removeLast()`, passando como parâmetro a quantidade de itens em `path`, para limpar toda a lista de rotas.
+    /// Removes all routes from the navigation stack,
+    /// returning the user to the root screen.
     func popAll() {
         path.removeLast(path.count)
     }
     
-    /// Atribui uma rota a variável `actualSheet`
-    /// - Parameters:
-    ///     - route: Uma das rotas do enum `Route`.
+    /// Presents a sheet for the specified route.
+    ///
+    /// - Parameter route: The route associated with the sheet to present.
     func showSheet(_ route: Route) {
-        actualSheet = route
+        currentSheet = route
     }
     
-    /// Fecha a sheet atual,
-    /// - Atribui o valor `nil` a variável `actualSheet`
+    /// Dismisses the currently presented sheet.
     func closeSheet() {
-        actualSheet = nil
+        currentSheet = nil
     }
     
-    /// Função que verifica o `UserDefaults` para saber se o dispositivo do usuário já fez onBoarding alguma vez
-    /// - Para resetar o `UserDefaults` é necessário desisntalar e reinstalar o aplicativo no simulador ou dispositivo
+    /// Marks the onboarding flow as completed.
+    ///
+    /// Stores a flag in `UserDefaults` so the onboarding
+    /// screen is not shown again on future launches.
+    ///
+    /// To reset this value during development, remove the app
+    /// from the simulator or device and install it again.
     func endOnboarding() {
         UserDefaults.standard.set(true, forKey: "onboardingDone")
     }

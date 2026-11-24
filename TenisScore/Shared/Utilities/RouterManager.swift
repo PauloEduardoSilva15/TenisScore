@@ -8,16 +8,18 @@
 import SwiftUI
 import SwiftData
 
-/// View responsável por gerenciar as rotas.
+/// Manages the application's navigation routes.
 ///
-/// Ela recebe uma rota e armazena na variável `route`.
+/// Receives a `Route` and returns the corresponding destination view.
 ///
-/// É utilizado um `switch case` para cada opção de rota possível declarada no enum de rotas `Route`.
-/// A partir daí, cada tela é chamada de acordo com a rota recebida pela view.
-/// O RouterManager é uma View e existe para ser chamado na `.navigationDestination`, recebendo uma rota dentre as rotas do enum `Route`.
+/// A `switch` statement is used to match each route defined in the
+/// `Route` enum with its associated screen.
 ///
-/// - Parameters:
-///     - route: É uma das rotas do enum `Route`, ou seja, é o parâmetro que decide qual view será chamada no `switch case`.
+/// `RouterManager` is used by `.navigationDestination` to determine
+/// which view should be presented for a given navigation route.
+///
+/// - Parameter route: A value from the `Route` enum that determines
+///   which view will be displayed.
 struct RouterManager: View {
     let route: Route
     
