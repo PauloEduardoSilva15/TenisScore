@@ -9,7 +9,9 @@ import Observation
 import SwiftUI
 
 /// Classe responsável pelos métodos de navegação.
+///
 /// Inicia o `NavigationPath()` e implementa métodos de adicionar uma nova rota ao path, remover a última rota adicionada ao path e limpar o path removendo todas as rotas na lista.
+/// 
 /// A classe também tem a variável `actualSheet`, utilizada para mostrar uma sheet com os métodos `showSheet(_:)` e `closeSheet()`.
 @Observable
 final class AppRouter {
@@ -20,8 +22,9 @@ final class AppRouter {
     var actualSheet: Route?
     
     /// Adiciona uma rota ao path
-    /// - Recebe uma rota do tipo Route
-    /// - Utiliza o método `.append` aplicado ao `path` para adicionar a rota
+    /// Utiliza o método `.append` aplicado ao `path` para adicionar a rota
+    /// - Parameters:
+    ///     - route: Uma das rotas do enum `Route`.
     func push(_ route: Route) {
         path.append(route)
     }
@@ -39,7 +42,8 @@ final class AppRouter {
     }
     
     /// Atribui uma rota a variável `actualSheet`
-    /// - Recebe uma rota do tipo Route
+    /// - Parameters:
+    ///     - route: Uma das rotas do enum `Route`.
     func showSheet(_ route: Route) {
         actualSheet = route
     }
