@@ -10,13 +10,22 @@ import SwiftUI
 @testable import TenisScore
 
 struct TestAppRouter {
+    
+    @Test("Router starts with empty navigation state")
+    func testRouterInitialState() {
+        let router = AppRouter()
+
+        #expect(router.path.count == 0)
+        #expect(router.currentSheet == nil)
+    }
 
     @Test("Add new route to path")
-    func testPushNewRoteToPath() {
+    func testPushNewRouteToPath() {
         let router = AppRouter()
+        #expect(router.path.count == 0)
         let route: Route = .homeScreen
         router.push(route)
-        #expect(router.path.count > 0)
+        #expect(router.path.count == 1)
     }
     
     @Test("Remove last route from path")
@@ -33,6 +42,8 @@ struct TestAppRouter {
         let router = AppRouter()
         router.push(.homeScreen)
         router.push(.endMatchView)
+        router.push(.matchCreationView)
+        router.push(.onMatchView)
         
         router.popAll()
         
@@ -43,7 +54,7 @@ struct TestAppRouter {
     func testShowSheet() {
         let router = AppRouter()
         router.showSheet(.matchCreationView)
-        #expect(router.actualSheet == .matchCreationView)
+        #expect(router.currentSheet == .matchCreationView)
     }
     
     @Test("Close sheet")
@@ -52,7 +63,7 @@ struct TestAppRouter {
         router.showSheet(.matchCreationView)
         
         router.closeSheet()
-        #expect(router.actualSheet == nil)
+        #expect(router.currentSheet == nil)
     }
 
 }
