@@ -42,4 +42,19 @@ class Game {
         
         self.whoServes = whoServes
     }
+    
+    init(matchSides: [MatchSide], whoServes: MatchSide? = nil) {
+        
+        self.points = [
+            GameSidePoints(matchSide: matchSides[0]),
+            GameSidePoints(matchSide: matchSides[1])
+        ]
+        
+        guard let whoServes = whoServes else {
+            self.whoServes = matchSides.randomElement()!
+            return
+        }
+        
+        self.whoServes = whoServes
+    }
 }

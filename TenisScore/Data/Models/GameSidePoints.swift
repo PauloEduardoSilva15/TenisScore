@@ -21,8 +21,8 @@ class GameSidePoints {
     /// The side that this class refers to
     var matchSide: MatchSide
     
-    init(points: Int, matchSide: MatchSide) {
-        self.points = points
+    init(matchSide: MatchSide) {
+        self.points = 0
         self.matchSide = matchSide
     }
 }

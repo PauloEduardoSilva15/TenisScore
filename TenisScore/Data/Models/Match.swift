@@ -54,7 +54,7 @@ class Match {
         self.sides = sides
         self.sets = sets
     }
-/*
+
     init(
         players: [Player],
         playerQuantity: MatchPlayerQuantity,
@@ -67,12 +67,20 @@ class Match {
         self.date = Date()
         self.playerQuantity = playerQuantity
         self.setQuantity = setQuantity
-        
-        // needs a function on MatchSide to create both match sides given a list of players and if it should be randomized
 
-        self.sets = sets
+        let sides: [MatchSide]
+        do {
+            sides = try MatchSide.makeSides(
+                players: players,
+                playerQuantity: playerQuantity
+            )
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+
+        self.sides = sides
+        self.sets = [MatchSet(matchSides: sides, whoServes: nil)]
     }
- */
 
 }
 
@@ -91,7 +99,7 @@ enum MatchPlayerQuantity: Int, Codable {
 
     /// Two players per side
     case pairs = 2
-    
+
     var name: String {
         switch self {
         case .singles:

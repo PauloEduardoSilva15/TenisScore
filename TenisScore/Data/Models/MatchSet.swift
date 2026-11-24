@@ -17,9 +17,11 @@ class MatchSet {
     var id: UUID = UUID()
     
     /// List of games in this set
-    var games: [Game]
+    var games: [Game] = []
     
-    init(games: [Game]) {
-        self.games = games
+    init(matchSides: [MatchSide], whoServes: MatchSide?) {
+        self.games = [
+            Game(matchSides: matchSides, whoServes: whoServes)
+        ]
     }
 }
