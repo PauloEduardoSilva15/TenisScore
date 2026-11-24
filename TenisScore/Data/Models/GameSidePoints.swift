@@ -8,17 +8,20 @@
 import Foundation
 import SwiftData
 
+/// Model representing the points of a side
 @Model
-class SidePoints {
+class GameSidePoints {
+    /// Unique Identifier for this side's points
     @Attribute(.unique)
-    var id: UUID
+    var id: UUID = UUID()
     
+    /// Points for a side
     var points: Int
     
+    /// The side that this class refers to
     var matchSide: MatchSide
     
-    init(id: UUID, points: Int, matchSide: MatchSide) {
-        self.id = id
+    init(points: Int, matchSide: MatchSide) {
         self.points = points
         self.matchSide = matchSide
     }

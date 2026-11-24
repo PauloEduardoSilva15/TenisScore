@@ -8,16 +8,18 @@
 import Foundation
 import SwiftData
 
-
+/// Model representing a side in a match
 @Model
 class MatchSide {
+    
+    /// Unique Identifier for this match side
     @Attribute(.unique)
-    var id: UUID
+    var id: UUID = UUID()
     
-    var players: Player
+    /// List of players in this side
+    var players: [Player]
     
-    init(id: UUID, players: Player) {
-        self.id = id
+    init(players: [Player]) {
         self.players = players
     }
 }

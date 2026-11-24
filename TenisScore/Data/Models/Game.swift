@@ -8,15 +8,22 @@
 import Foundation
 import SwiftData
 
+
+/// Model that represents one game
 @Model
 class Game {
+    
+    /// The identificator for this game
     @Attribute(.unique)
-    var id: UUID
+    var id: UUID = UUID()
     
-    var points: [SidePoints]
+    /// Points for each side of the game
+    var points: [GameSidePoints]
     
+    /// Who serves during this game
     var whoServes: MatchSide
     
+    /// Who is winning currently in this game
     var whoIsWinning: MatchSide {
         if points[0].points > points[1].points {
             return points[0].matchSide
@@ -25,8 +32,7 @@ class Game {
         }
     }
     
-    init(id: UUID, points: [SidePoints], whoServes: MatchSide?) {
-        self.id = id
+    init(points: [GameSidePoints], whoServes: MatchSide?) {
         self.points = points
         
         guard let whoServes = whoServes else {

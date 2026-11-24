@@ -8,16 +8,18 @@
 import Foundation
 import SwiftData
 
-
+/// Model representing one set in a match
 @Model
 class MatchSet {
-    @Attribute(.unique)
-    var id: UUID
     
+    /// Unique identifier for this set
+    @Attribute(.unique)
+    var id: UUID = UUID()
+    
+    /// List of games in this set
     var games: [Game]
     
-    init(id: UUID, games: [Game]) {
-        self.id = id
+    init(games: [Game]) {
         self.games = games
     }
 }
