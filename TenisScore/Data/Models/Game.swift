@@ -25,18 +25,15 @@ class Game {
     
     
     var isEnd: Bool {
-        if points[0].points > 4 || points[1].points > 4{
-            if points[0].points - points[1].points == 2 ||
-            points[1].points - points[0].points == 2{
-                return true
-            }
-            
-        }
-        return false
+        let minimumPointsToWin = isImTieBreak ? 7 : 4
+        let highestScore = points.map(\.points).max() ?? 0
+        let lowestScore = points.map(\.points).min() ?? 0
+
+        return highestScore >= minimumPointsToWin &&
+            highestScore - lowestScore >= 2
     }
     
     
-    /// Who is winning currently in this game
     var whoIsWinning: MatchSide {
         if points[0].points > points[1].points {
             return points[0].matchSide
