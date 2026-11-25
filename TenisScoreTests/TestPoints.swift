@@ -9,7 +9,7 @@ import Testing
 
 @testable import TenisScore
 
-@Suite("Test point, game and set systems")
+@Suite("Test point, game and set systems from Match")
 struct TestPoints {
     
     static let players = [Player(name: "Nome 1"), Player(name: "Nome 2")]
@@ -243,5 +243,43 @@ struct TestPoints {
         #expect(match.curSetIndex == 0)
         #expect(set.curGameIndex == 11)
     }
-
+    
+    @Test("One of the side wins", arguments: [0, 1])
+    func oneOfTheSideWins(side: Int) throws {
+        let match = try Match(
+            players: TestPoints.players,
+            playerQuantity: .singles,
+            setQuantity: .three
+        )
+        
+        for _ in 1...(2 * 6 * 4) {
+            match.incrementPoints(for: match.sides[side])
+        }
+        
+        #expect(match.winner != nil)
+        #expect(match.winner == match.sides[side])
+    }
+    
+    @Test("Return right number of points of game on match model")
+    func returnRightNumberOfPointsOnGame() throws {
+        let match = try Match(
+            players: TestPoints.players,
+            playerQuantity: .singles,
+            setQuantity: .three
+        )
+        
+        let side1 = match.sides[0]
+        let side2 = match.sides[1]
+        
+        
+        match.incrementPoints(for: side1)
+        match.incrementPoints(for: side1)
+        
+        
+        match.incrementPoints(for: side2)
+        
+        #expect(match.curGamePointPerSide[side1] == 2)
+        #expect(match.curGamePointPerSide[side2] == 1)
+    }
+    
 }

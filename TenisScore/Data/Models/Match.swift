@@ -36,31 +36,45 @@ class Match {
 
     /// All sets of the current match
     var sets: [MatchSet]
-    
+
+    /// Current set of this match
     var curSet: MatchSet {
         return sets[curSetIndex]
     }
-    
+
     /// Currrent set index in `sets` array
     var curSetIndex: Int {
         self.sets.count {
             $0.isEnd
         }
     }
-    
+
+    /// Current amount of points of game per side
+    var curGamePointPerSide: [MatchSide: Int] {
+        var tmpDict: [MatchSide: Int] = [:]
+
+        for game in curSet.games {
+            for pointSide in game.points {
+                tmpDict[pointSide.matchSide] = pointSide.points
+            }
+        }
+
+        return tmpDict
+    }
+
     /// Checks if this match has ended
-    var isEnd: Bool{
+    var isEnd: Bool {
         if sets.count == setQuantity.rawValue {
-            if !tieBreaker{
+            if !tieBreaker {
                 status = .completed
                 return true
             }
             // TODO: Verificar tie breaker
         }
-        
+
         return false
     }
-    
+
     /// Show who is winning this match by number of sets
     var whoIsWinning: MatchSide {
 
@@ -69,9 +83,9 @@ class Match {
 
         // dont care if it is equal
         return first > second ? sides[0] : sides[1]
-        
+
     }
-    
+
     /// If someone won this match, set it to the winning side
     var winner: MatchSide? {
         let setsNeeded = setQuantity.rawValue / 2 + 1
@@ -79,24 +93,7 @@ class Match {
         return sides.first { setsWon(by: $0) >= setsNeeded }
     }
 
-    init(
-        status: MatchStatus,
-        tieBreaker: Bool,
-        date: Date,
-        playerQuantity: MatchPlayerQuantity,
-        setQuantity: MatchSetQuantity,
-        sides: [MatchSide],
-        sets: [MatchSet]
-    ) {
-        self.status = status
-        self.tieBreaker = tieBreaker
-        self.date = date
-        self.playerQuantity = playerQuantity
-        self.setQuantity = setQuantity
-        self.sides = sides
-        self.sets = sets
-    }
-
+    /// Initiates a new match, ready to play
     init(
         players: [Player],
         playerQuantity: MatchPlayerQuantity,
@@ -118,21 +115,27 @@ class Match {
         )
 
         self.sides = sides
-        self.sets = [MatchSet(matchSides: sides, whoServes: sides.randomElement()!.players.randomElement()!)]
+        self.sets = [
+            MatchSet(
+                matchSides: sides,
+                useTieBreaker: tieBreaker,
+                whoServes: sides.randomElement()!.players.randomElement()!
+            )
+        ]
     }
-    
-    /// internal function to check sets won by side
+
+    /// Internal function to check sets won by side
     private func setsWon(by side: MatchSide) -> Int {
         sets.filter { $0.winner?.id == side.id }.count
     }
-    
+
     /// Internal function to start a new set on this match
     private func startNextSet() {
         sets.append(
-            MatchSet(matchSides: sides)
+            MatchSet(matchSides: sides, useTieBreaker: tieBreaker)
         )
     }
-    
+
     /// Internal function to start the next game on this match
     private func startNextGame(in set: MatchSet) {
         do {
@@ -141,17 +144,18 @@ class Match {
             print(error.localizedDescription)
         }
     }
-    
+
     /// Increment points for a side, checking to start next set or game
     func incrementPoints(for side: MatchSide) {
         guard status == .inProgress, winner == nil,
-              let set = sets.last, !set.isEnd,
-              let game = set.games.last, !game.isEnd else { return }
-        
+            let set = sets.last, !set.isEnd,
+            let game = set.games.last, !game.isEnd
+        else { return }
+
         game.incrementPoint(for: side)
-        
+
         guard game.winner != nil else { return }
-        
+
         if set.winner != nil {
             if winner != nil {
                 status = .completed
@@ -162,12 +166,12 @@ class Match {
             startNextGame(in: set)
         }
     }
-    
+
     /// Decrement points for a side on the current game.
     func decrementPoints(for side: MatchSide) {
         let set = sets[curSetIndex]
         let game = set.games[set.curGameIndex]
-        
+
         game.decrementPoint(for: side)
     }
 }
