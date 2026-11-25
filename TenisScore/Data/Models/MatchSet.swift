@@ -26,6 +26,7 @@ class MatchSet {
     /// List of games in this set
     var games: [Game] = []
     
+    /// Current running game of this set
     var curGame: Game {
         return games[curGameIndex]
     }
@@ -37,6 +38,7 @@ class MatchSet {
         }
     }
     
+    /// The winner of this set, returns `nil` if no winner is set
     var winner: MatchSide? {
         guard sides.count == 2 else { return nil }
 
@@ -48,6 +50,7 @@ class MatchSet {
         return nil
     }
     
+    /// Returns who is currently winning in this match, returning nil when tied
     var whoIsWinning: MatchSide? {
         guard sides.count == 2 else { return nil }
         let first = gamesWon(by: sides[0])
@@ -85,10 +88,12 @@ class MatchSet {
         ]
     }
     
+    /// Internal function to check how many games won on this set by side
     private func gamesWon(by side: MatchSide) -> Int {
         games.filter { $0.winner?.id == side.id }.count
     }
     
+    /// Starts a new game on this set, checking if the current game truly has ended
     func startNextGame() throws {
         guard let currentGame = games.last, currentGame.isEnd else {
             throw MatchSetError.currentGameNotFinished
@@ -103,6 +108,7 @@ class MatchSet {
 }
 
 extension MatchSet {
+    /// Errors for MatchSet
     enum MatchSetError: String, Error {
         case currentGameNotFinished = "The current game has not finished yet!"
     }

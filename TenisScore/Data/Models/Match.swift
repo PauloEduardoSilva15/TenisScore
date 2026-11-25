@@ -126,12 +126,14 @@ class Match {
         sets.filter { $0.winner?.id == side.id }.count
     }
     
+    /// Internal function to start a new set on this match
     private func startNextSet() {
         sets.append(
             MatchSet(matchSides: sides)
         )
     }
     
+    /// Internal function to start the next game on this match
     private func startNextGame(in set: MatchSet) {
         do {
             try set.startNextGame()
@@ -161,6 +163,7 @@ class Match {
         }
     }
     
+    /// Decrement points for a side on the current game.
     func decrementPoints(for side: MatchSide) {
         let set = sets[curSetIndex]
         let game = set.games[set.curGameIndex]
@@ -178,6 +181,7 @@ enum MatchStatus: String, Codable {
     case completed
 }
 
+/// Quantity of players per side of match
 enum MatchPlayerQuantity: Int, Codable {
     /// Single player per side
     case singles = 1
@@ -196,6 +200,7 @@ enum MatchPlayerQuantity: Int, Codable {
     }
 }
 
+/// Quantity of sets per match, bo3 or bo5
 enum MatchSetQuantity: Int, Codable {
     /// Best of three sets
     case three = 3

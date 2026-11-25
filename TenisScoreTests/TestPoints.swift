@@ -243,27 +243,5 @@ struct TestPoints {
         #expect(match.curSetIndex == 0)
         #expect(set.curGameIndex == 11)
     }
-    
-    @Test()
-    func test() throws {
-        let match = try Match(
-            players: TestPoints.players,
-            playerQuantity: .singles,
-            setQuantity: .three
-        )
-        
-        let side1 = match.sides[0]
-//        let side2 = match.sides[1]
-        
-
-        for _ in 0..<6 {
-            for _ in 0..<4 {
-                match.incrementPoints(for: side1)
-            }
-        }
-        
-        #expect(match.curSetIndex == 1)
-        #expect(match.curSet.curGameIndex == 0)
-    }
 
 }

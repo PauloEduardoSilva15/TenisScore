@@ -48,6 +48,7 @@ class Game {
         }
     }
     
+    /// Returns who is the winner of this game, returning `nil` if no winner has been decided yet
     var winner: MatchSide? {
         if isEnd {
             return whoIsWinning
@@ -73,6 +74,7 @@ class Game {
         self.whoServes = whoServes
     }
     
+    /// Increment point for a side based on the side
     func incrementPoint(for side: MatchSide) {
         for point in points {
             if point.matchSide == side {
@@ -82,6 +84,7 @@ class Game {
         }
     }
     
+    /// Increment point for a side based on the side ID
     func incrementPoint(sideId: UUID){
         for point in points {
             if point.matchSide.id == sideId{
@@ -91,6 +94,7 @@ class Game {
         }
     }
     
+    /// Increment point for a side based on the side's name
     func incrementPoint(sideName: String){
         for point in points {
             if point.matchSide.name == sideName{
@@ -100,6 +104,7 @@ class Game {
         }
     }
     
+    /// Decrement point for a side based on the side
     func decrementPoint(for side: MatchSide) {
         for point in points {
             if point.matchSide == side && point.points >= 1 {
@@ -109,6 +114,7 @@ class Game {
         }
     }
     
+    /// Decrement point for a side based on the side's ID
     func decrementPoint(sideId: UUID){
         for point in points {
             if point.matchSide.id == sideId && point.points >= 1{
@@ -118,6 +124,7 @@ class Game {
         }
     }
     
+    /// Decrement point for a side based on the side's name
     func decrementPoint(sideName: String){
         for point in points {
             if point.matchSide.name == sideName && point.points >= 1{
