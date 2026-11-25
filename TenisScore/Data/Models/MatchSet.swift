@@ -20,31 +20,40 @@ class MatchSet {
     
     /// If this set has ended
     var isEnd: Bool {
-        return games.count >= 6 && games.last!.isEnd == true
+        winner != nil
     }
     
     /// List of games in this set
     var games: [Game] = []
     
-    /// Current game of this set
-    var curGame: Int {
+    var curGame: Game {
+        return games[curGameIndex]
+    }
+    
+    /// index of the current game of this set
+    var curGameIndex: Int {
         self.games.count {
             $0.isEnd
         }
     }
     
     var winner: MatchSide? {
-        if isEnd {
-            return whoIsWinning
-        } else {
-            return nil
-        }
+        guard sides.count == 2 else { return nil }
+
+        let first = gamesWon(by: sides[0])
+        let second = gamesWon(by: sides[1])
+
+        if first >= 6 && first - second >= 2 { return sides[0] }
+        if second >= 6 && second - first >= 2 { return sides[1] }
+        return nil
     }
     
-    var whoIsWinning: MatchSide {
+    var whoIsWinning: MatchSide? {
+        guard sides.count == 2 else { return nil }
         let first = gamesWon(by: sides[0])
         let second = gamesWon(by: sides[1])
         
+        if first == second { return nil }
         return first > second ? sides[0] : sides[1]
     }
     
@@ -81,7 +90,7 @@ class MatchSet {
     }
     
     func startNextGame() throws {
-        if (!games[curGame].isEnd) {
+        guard let currentGame = games.last, currentGame.isEnd else {
             throw MatchSetError.currentGameNotFinished
         }
         

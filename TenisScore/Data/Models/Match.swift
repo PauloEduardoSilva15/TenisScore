@@ -37,8 +37,12 @@ class Match {
     /// All sets of the current match
     var sets: [MatchSet]
     
+    var curSet: MatchSet {
+        return sets[curSetIndex]
+    }
+    
     /// Currrent set index in `sets` array
-    var curSet: Int {
+    var curSetIndex: Int {
         self.sets.count {
             $0.isEnd
         }
@@ -128,10 +132,7 @@ class Match {
         )
     }
     
-    private func startNextGame() {
-        let set = sets[curSet]
-//        let game = set.games[set.curGame]
-        
+    private func startNextGame(in set: MatchSet) {
         do {
             try set.startNextGame()
         } catch {
@@ -141,8 +142,9 @@ class Match {
     
     /// Increment points for a side, checking to start next set or game
     func incrementPoints(for side: MatchSide) {
-        let set = sets[curSet]
-        let game = set.games[set.curGame]
+        guard status == .inProgress, winner == nil,
+              let set = sets.last, !set.isEnd,
+              let game = set.games.last, !game.isEnd else { return }
         
         game.incrementPoint(for: side)
         
@@ -155,13 +157,13 @@ class Match {
                 startNextSet()
             }
         } else {
-            startNextGame()
+            startNextGame(in: set)
         }
     }
     
     func decrementPoints(for side: MatchSide) {
-        let set = sets[curSet]
-        let game = set.games[set.curGame]
+        let set = sets[curSetIndex]
+        let game = set.games[set.curGameIndex]
         
         game.decrementPoint(for: side)
     }
