@@ -37,7 +37,7 @@ class Game {
             highestScore - lowestScore >= 2
     }
     
-    
+    /// Returns the side that is currently winning
     var whoIsWinning: MatchSide {
         if points[0].points > points[1].points {
             return points[0].matchSide
