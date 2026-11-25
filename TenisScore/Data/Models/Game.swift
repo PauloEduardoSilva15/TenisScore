@@ -17,13 +17,17 @@ class Game {
     @Attribute(.unique)
     var id: UUID = UUID()
     
+    /// The points for this current game
     var points: [GameSidePoints]
     
+    /// Who is serving on this current game
     var whoServes: Player
     
+    /// If this is the tie breaker game for a set
     var isImTieBreak: Bool
     
     
+    /// If this game has ended yet
     var isEnd: Bool {
         let minimumPointsToWin = isImTieBreak ? 7 : 4
         let highestScore = points.map(\.points).max() ?? 0
@@ -39,6 +43,15 @@ class Game {
             return points[0].matchSide
         } else {
             return points[1].matchSide
+        }
+    }
+    
+    /// Returns who is the winner of this game, returning `nil` if no winner has been decided yet
+    var winner: MatchSide? {
+        if isEnd {
+            return whoIsWinning
+        } else {
+            return nil
         }
     }
     
@@ -59,6 +72,17 @@ class Game {
         self.whoServes = whoServes
     }
     
+    /// Increment point for a side based on the side
+    func incrementPoint(for side: MatchSide) {
+        for point in points {
+            if point.matchSide == side {
+                point.points += 1;
+                return
+            }
+        }
+    }
+    
+    /// Increment point for a side based on the side ID
     func incrementPoint(sideId: UUID){
         for point in points {
             if point.matchSide.id == sideId{
@@ -67,6 +91,8 @@ class Game {
             }
         }
     }
+    
+    /// Increment point for a side based on the side's name
     func incrementPoint(sideName: String){
         for point in points {
             if point.matchSide.name == sideName{
@@ -75,6 +101,18 @@ class Game {
             }
         }
     }
+    
+    /// Decrement point for a side based on the side
+    func decrementPoint(for side: MatchSide) {
+        for point in points {
+            if point.matchSide == side && point.points >= 1 {
+                point.points -= 1;
+                return
+            }
+        }
+    }
+    
+    /// Decrement point for a side based on the side's ID
     func decrementPoint(sideId: UUID){
         for point in points {
             if point.matchSide.id == sideId && point.points >= 1{
@@ -83,6 +121,8 @@ class Game {
             }
         }
     }
+    
+    /// Decrement point for a side based on the side's name
     func decrementPoint(sideName: String){
         for point in points {
             if point.matchSide.name == sideName && point.points >= 1{

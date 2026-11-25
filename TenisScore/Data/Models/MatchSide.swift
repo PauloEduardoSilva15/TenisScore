@@ -27,6 +27,12 @@ class MatchSide {
 
 /// Extension
 extension MatchSide {
+    /// Function to make sides from team names, playes, player quantity and if they should be random
+    /// Parameters:
+    ///     - teamNames: The names of the two sides
+    ///     - players: The players to add to the teams
+    ///     - playerQuantity: Quantity of players per side
+    ///     - randomizePlayers: If the players should be randomized when defining both sides
     public static func makeSides(
         teamNames: [String],
         players: [Player],
@@ -100,6 +106,7 @@ extension MatchSide {
 
     }
 
+    /// Errors for MatchSide
     enum MatchSideError: String, Error {
         case wrongNumberOfPlayer =
             "Wrong ammount of players while making MatchSides"

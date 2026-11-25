@@ -50,6 +50,7 @@ struct TestAppRouter {
         #expect(router.path.count == 0)
     }
     
+    @MainActor
     @Test("Show sheet")
     func testShowSheet() {
         let router = AppRouter()
