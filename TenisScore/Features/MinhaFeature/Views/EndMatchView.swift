@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct EndMatchView: View {
+    @Environment(AppRouter.self) private var router
+    
     var body: some View {
         Text("PARTIDA ENCERRADA, VOCÊ GANHOU!")
+        
+        Button("Voltar para o começo") {
+            router.popAll()
+        }
     }
 }
 
