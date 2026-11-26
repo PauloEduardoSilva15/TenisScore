@@ -31,8 +31,8 @@ struct RouterManager: View {
         case .homeScreen:
             Home()
             
-        case .matchCreationView:
-            MatchCreationView()
+        case .newMatchView:
+            NewMatchView()
             
         case .onMatchView:
             OnMatchView()
