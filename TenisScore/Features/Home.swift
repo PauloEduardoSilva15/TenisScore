@@ -5,20 +5,60 @@
 //  Created by Igor Carrasco on 23/11/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct Home: View {
     @Environment(AppRouter.self) private var router
-    
+
+    @Query private var matches: [Match]
+    @Environment(\.modelContext) private var modelContext
+
     var body: some View {
-        VStack {
-//            AppBackgroundImg()
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            
-            Button("Criar partida") {
-                router.push(.newMatchView)
+        ZStack {
+            AppBackgroundImg(Image("AppBackgroundImg"))
+                .allowsHitTesting(false)
+
+            ScrollView {
+                ForEach(matches) { match in
+                    MatchViewComponent(match: match)
+                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                modelContext.delete(match)
+                            } label: {
+                                Label("Excluir", systemImage: "trash")
+                            }
+                        }
+                }
+            }
+            .swipeActionsContainer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    do {
+                        modelContext.insert(
+                            try Match(
+                                players: [
+                                    Player(name: "Nome 1"), Player(name: "Nome 2"),
+                                ],
+                                playerQuantity: .singles,
+                                setQuantity: .three
+                            )
+                        )
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                }
             }
         }
+        .navigationTitle("Jogos anteriores")
+        .toolbarTitleDisplayMode(.inlineLarge)
     }
 }
 
