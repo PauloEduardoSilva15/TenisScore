@@ -195,12 +195,15 @@ enum MatchStatus: String, Codable {
 }
 
 /// Quantity of players per side of match
-enum MatchPlayerQuantity: Int, Codable {
+enum MatchPlayerQuantity: Int, Codable, CaseIterable, Identifiable {
     /// Single player per side
     case singles = 1
 
     /// Two players per side
     case pairs = 2
+    
+    /// To conform to Identifiable protocol
+    var id: Self { self }
 
     /// The whole name for this quantity of players per side
     var name: String {
@@ -208,27 +211,48 @@ enum MatchPlayerQuantity: Int, Codable {
         case .singles:
             return "Singles"
         case .pairs:
-            return "Pairs"
+            return "Duplas"
+        }
+    }
+}
+
+extension MatchPlayerQuantity {
+    /// Total number of players in the match (both sides).
+    var totalPlayers: Int { rawValue * 2 }
+
+    /// Returns the final player names, replacing blank ones with a default.
+    /// - Parameter typed: Names typed by the user, in field order.
+    /// - Returns: Exactly ``totalPlayers`` names.
+    func resolvedNames(from typed: [String]) -> [String] {
+        (0..<totalPlayers).map { index in
+            let name = index < typed.count
+                ? typed[index].trimmingCharacters(in: .whitespaces)
+                : ""
+            return name.isEmpty ? "Jogador \(index + 1)" : name
         }
     }
 }
 
 /// Quantity of sets per match, bo3 or bo5
-enum MatchSetQuantity: Int, Codable {
+enum MatchSetQuantity: Int, Codable, CaseIterable, Identifiable {
     /// Best of three sets
     case three = 3
 
     /// Best of five sets
     case five = 5
+    
+    /// To conform to Identifiable protocol
+    var id: Self { self }
 
     /// Whole english name for the quantity of sets
     var name: String {
         switch self {
         case .three:
-            return "Three"
+            return "3 Sets"
 
         case .five:
-            return "Five"
+            return "5 Sets"
         }
     }
 }
+
