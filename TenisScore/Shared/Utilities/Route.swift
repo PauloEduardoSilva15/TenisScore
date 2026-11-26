@@ -14,7 +14,7 @@ import Foundation
 /// should have a corresponding case in this enum.
 enum Route: Hashable {
     case homeScreen
-    case matchCreationView
+    case newMatchView
     case onMatchView
     case endMatchView
 }
