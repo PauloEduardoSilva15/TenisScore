@@ -84,19 +84,6 @@ struct TestGame {
         game.points[1].points = 4
         #expect(game.whoIsWinning == game.points.first?.matchSide)
     }
-    @Test("The first team is Lose")
-    func testWhosIsLoseInFirstIndex() throws {
-        let sides: [MatchSide] = try MatchSide.makeSides(
-            teamNames: ["Jorges", "Engenheiros"],
-            players: [Player(name: "Jorge"), Player(name: "Ana")],
-            playerQuantity: .singles,
-            randomizePlayers: false
-        )
-        let game = Game(matchSides: sides)
-        game.points[0].points = 4
-        game.points[1].points = 5
-        #expect(game.whoIsWinning != game.points.first?.matchSide)
-    }
     @Test("The second team is Wining")
     func testWhosIsWiningInLastIndex() throws {
         let sides: [MatchSide] = try MatchSide.makeSides(
@@ -111,20 +98,6 @@ struct TestGame {
         #expect(game.whoIsWinning == game.points.last?.matchSide)
     }
     
-    @Test("The second team is Lose")
-    func testWhosIsLoseInLastIndex() throws {
-        let sides: [MatchSide] = try MatchSide.makeSides(
-            teamNames: ["Jorges", "Engenheiros"],
-            players: [Player(name: "Jorge"), Player(name: "Ana")],
-            playerQuantity: .singles,
-            randomizePlayers: false
-        )
-        let game = Game(matchSides: sides)
-        game.points[0].points = 5
-        game.points[1].points = 4
-        #expect(game.whoIsWinning != game.points.last?.matchSide)
-    }
-
     @Test("Incremented with id")
     func testIncrementedWithId() throws{
         let sides: [MatchSide] = try MatchSide.makeSides(

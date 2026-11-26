@@ -145,13 +145,17 @@ class Match {
         }
     }
 
-    /// Increment points for a side, checking to start next set or game
-    func incrementPoints(for side: MatchSide) {
+    private func activeSetAndGame() throws -> (MatchSet, Game) {
         guard status == .inProgress, winner == nil,
             let set = sets.last, !set.isEnd,
             let game = set.games.last, !game.isEnd
-        else { return }
+        else { throw MatchError.matchFinished }
+        return (set, game)
+    }
 
+    /// Increment points for a side, checking to start next set or game
+    func incrementPoints(for side: MatchSide) throws {
+        let (set, game) = try activeSetAndGame()
         game.incrementPoint(for: side)
 
         guard game.winner != nil else { return }
@@ -168,11 +172,16 @@ class Match {
     }
 
     /// Decrement points for a side on the current game.
-    func decrementPoints(for side: MatchSide) {
-        let set = sets[curSetIndex]
-        let game = set.games[set.curGameIndex]
-
+    func decrementPoints(for side: MatchSide) throws {
+        let (_, game) = try activeSetAndGame()
         game.decrementPoint(for: side)
+    }
+}
+
+extension Match {
+    /// Errors for Match
+    enum MatchError: String, Error {
+        case matchFinished = "Match has already finished"
     }
 }
 

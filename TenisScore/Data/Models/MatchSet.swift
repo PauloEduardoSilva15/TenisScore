@@ -48,11 +48,17 @@ class MatchSet {
         let first = gamesWon(by: sides[0])
         let second = gamesWon(by: sides[1])
 
-        if first >= 6 && (usesTieBreaker ? (first - second >= 2) : true) {
+        if first >= 6 && first - second >= 2 {
             return sides[0]
         }
-        if second >= 6 && (usesTieBreaker ? (second - first >= 2) : true) {
+        if second >= 6 && second - first >= 2 {
             return sides[1]
+        }
+
+        if usesTieBreaker,
+            ((first == 7 && second == 6) || (second == 7 && first == 6)),
+            let lastGame = games.last, lastGame.isImTieBreak {
+            return lastGame.winner
         }
         return nil
     }
@@ -106,8 +112,15 @@ class MatchSet {
             throw MatchSetError.currentGameNotFinished
         }
 
+        guard winner == nil else {
+            throw MatchSetError.setAlreadyFinished
+        }
+
+        let isTieBreak = usesTieBreaker &&
+            gamesWon(by: sides[0]) == 6 && gamesWon(by: sides[1]) == 6
+
         games.append(
-            Game(matchSides: sides)
+            Game(matchSides: sides, isImTieBreak: isTieBreak)
         )
 
     }
@@ -118,5 +131,6 @@ extension MatchSet {
     /// Errors for MatchSet
     enum MatchSetError: String, Error {
         case currentGameNotFinished = "The current game has not finished yet!"
+        case setAlreadyFinished = "The set has already finished!"
     }
 }
