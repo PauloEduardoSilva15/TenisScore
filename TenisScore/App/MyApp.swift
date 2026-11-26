@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main struct MyApp: App {
     /// Stores the application's navigation router.
@@ -21,6 +22,10 @@ import SwiftUI
                 }
             }
             .environment(router)
+            .modelContainer(for: [
+                Match.self, MatchSet.self, Game.self,
+                GameSidePoints.self, MatchSide.self, Player.self
+            ])
         }
     }
 }
