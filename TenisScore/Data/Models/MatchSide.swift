@@ -25,6 +25,16 @@ class MatchSide {
     }
 }
 
+extension MatchSide: Hashable {
+    static func == (lhs: MatchSide, rhs: MatchSide) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
 /// Extension
 extension MatchSide {
     /// Function to make sides from team names, playes, player quantity and if they should be random
