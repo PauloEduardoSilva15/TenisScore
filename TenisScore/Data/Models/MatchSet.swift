@@ -101,8 +101,8 @@ class MatchSet {
         ]
     }
 
-    /// Internal function to check how many games won on this set by side
-    private func gamesWon(by side: MatchSide) -> Int {
+    /// Number of completed games won by a side in this set.
+    func gamesWon(by side: MatchSide) -> Int {
         games.filter { $0.winner?.id == side.id }.count
     }
 
