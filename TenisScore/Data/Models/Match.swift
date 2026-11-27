@@ -216,23 +216,6 @@ enum MatchPlayerQuantity: Int, Codable, CaseIterable, Identifiable {
     }
 }
 
-extension MatchPlayerQuantity {
-    /// Total number of players in the match (both sides).
-    var totalPlayers: Int { rawValue * 2 }
-
-    /// Returns the final player names, replacing blank ones with a default.
-    /// - Parameter typed: Names typed by the user, in field order.
-    /// - Returns: Exactly ``totalPlayers`` names.
-    func resolvedNames(from typed: [String]) -> [String] {
-        (0..<totalPlayers).map { index in
-            let name = index < typed.count
-                ? typed[index].trimmingCharacters(in: .whitespaces)
-                : ""
-            return name.isEmpty ? "Jogador \(index + 1)" : name
-        }
-    }
-}
-
 /// Quantity of sets per match, bo3 or bo5
 enum MatchSetQuantity: Int, Codable, CaseIterable, Identifiable {
     /// Best of three sets
