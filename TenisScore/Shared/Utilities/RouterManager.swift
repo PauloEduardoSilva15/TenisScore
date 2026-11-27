@@ -34,8 +34,8 @@ struct RouterManager: View {
         case .newMatchView:
             NewMatchView()
             
-        case .onMatchView:
-            OnMatchView()
+        case .onMatchView(let match):
+            OnMatchView(match: match)
             
         case .endMatchView:
             EndMatchView()

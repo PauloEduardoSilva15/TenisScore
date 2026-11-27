@@ -14,14 +14,23 @@ struct TestPoints {
 
     static let players = [Player(name: "Nome 1"), Player(name: "Nome 2")]
 
-    @Test("Make match with wrong number of players", arguments: [(1, MatchPlayerQuantity.singles), (3, MatchPlayerQuantity.singles), (1, MatchPlayerQuantity.pairs), (3, MatchPlayerQuantity.pairs)])
-    func makeMatchWithProperNumber(howMany: Int, playerQuantity: MatchPlayerQuantity) throws {
+    @Test(
+        "Make match with wrong number of players",
+        arguments: [
+            (1, MatchPlayerQuantity.singles), (3, MatchPlayerQuantity.singles),
+            (1, MatchPlayerQuantity.pairs), (3, MatchPlayerQuantity.pairs),
+        ]
+    )
+    func makeMatchWithProperNumber(
+        howMany: Int,
+        playerQuantity: MatchPlayerQuantity
+    ) throws {
         var playerList: [Player] = []
 
         for i in 1...howMany {
             playerList.append(Player(name: "Nome " + String(i)))
         }
-        
+
         #expect(throws: MatchSide.MatchSideError.wrongNumberOfPlayer) {
             _ = try Match(
                 players: playerList,
@@ -361,23 +370,23 @@ struct TestPoints {
         )
         let first = match.sides[0]
         let second = match.sides[1]
-        
+
         for _ in 0...6 * 4 {
             try match.incrementPoints(for: first)
         }
-        
+
         for _ in 0...6 * 4 {
             try match.incrementPoints(for: second)
         }
-        
+
         try match.incrementPoints(for: first)
-        
+
         #expect(match.curSetIndex == 2)
         #expect(match.isEnd == false)
         #expect(match.status == .inProgress)
         #expect(match.curGamePointPerSide[first] == 1)
     }
-    
+
     @Test("Can't increment match after it has finished")
     func cantIncrementMatchAfterFinish() throws {
         let match = try Match(
@@ -398,7 +407,7 @@ struct TestPoints {
         }
 
     }
-    
+
     @Test("Can't decrement match after it has finished")
     func cantDecrementMatchAfterFinish() throws {
         let match = try Match(

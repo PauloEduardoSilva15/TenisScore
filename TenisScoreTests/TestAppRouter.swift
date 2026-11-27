@@ -28,6 +28,7 @@ struct TestAppRouter {
         #expect(router.path.count == 1)
     }
     
+    @MainActor
     @Test("Remove last route from path")
     func testPopLastRoute() {
         let router = AppRouter()
@@ -39,12 +40,19 @@ struct TestAppRouter {
     }
     
     @Test("Clean path routes")
-    func testPopAll() {
+    func testPopAll() throws {
+        
+        let match = try Match(
+            players: [Player(name: "Nome 1"), Player(name: "Nome 2")],
+            playerQuantity: .singles,
+            setQuantity: .three
+        )
+        
         let router = AppRouter()
         router.push(.homeScreen)
         router.push(.endMatchView)
         router.push(.newMatchView)
-        router.push(.onMatchView)
+        router.push(.onMatchView(match: match))
         
         router.popAll()
         
