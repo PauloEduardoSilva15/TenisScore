@@ -95,7 +95,7 @@ struct NewMatchView: View {
             .padding(.horizontal)
             
             ConfirmButton("Iniciar partida") {
-                router.push(.onMatchView)
+                router.push(.resumeMatchView)
             }
             .padding()
         }

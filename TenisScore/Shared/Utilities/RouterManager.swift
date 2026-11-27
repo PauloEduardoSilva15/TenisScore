@@ -39,6 +39,9 @@ struct RouterManager: View {
             
         case .endMatchView:
             EndMatchView()
+            
+        case .resumeMatchView:
+            MatchResumeView()
         }
     }
 }
