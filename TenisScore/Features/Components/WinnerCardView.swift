@@ -47,12 +47,10 @@ struct WinnerCardView: View {
                     .font(.subheadline)
                 HStack{
                     Image(systemName: "trophy.fill")
-                        .foregroundStyle(.yellow)
                     Text("Vitória de \(winnerName)")
                         .bold()
                         .font(.title2)
                     Image(systemName: "trophy.fill")
-                        .foregroundStyle(.yellow)
                 }
                 
                 if type != .match {
