@@ -11,8 +11,6 @@ public struct ConfirmButton: View {
     private let title: String
     private let action: () -> Void
 
-    // Cor exata #729931 do protótipo
-    private let buttonColor = Color(red: 114 / 255, green: 153 / 255, blue: 49 / 255)
 
     public init(_ title: String, action: @escaping () -> Void) {
         self.title = title
@@ -29,8 +27,8 @@ public struct ConfirmButton: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity, minHeight: 50)
-            .background(buttonColor, in: Capsule())
-            .glassEffect(.regular.tint(buttonColor), in: Capsule())
+            .background(.btnBackground, in: Capsule())
+            .glassEffect(.regular.tint(.btnBackground), in: Capsule())
         }
         .buttonStyle(.plain)
     }
