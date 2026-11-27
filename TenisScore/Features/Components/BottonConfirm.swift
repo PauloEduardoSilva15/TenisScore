@@ -12,7 +12,7 @@ public struct ConfirmButton: View {
     private let action: () -> Void
 
     // Cor exata #729931 do protótipo
-    private let buttonColor = Color(red: 114 / 255, green: 153 / 255, blue: 49 / 255)
+    private let buttonColor: Color = .btnBackground
 
     public init(_ title: String, action: @escaping () -> Void) {
         self.title = title
