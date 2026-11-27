@@ -17,7 +17,7 @@ struct ScoreView: View {
                 .font(.title)
                 .bold()
                 .foregroundStyle(
-                    .titleText
+                    .text
                 )
             HStack(spacing: 16) {
                 VStack {

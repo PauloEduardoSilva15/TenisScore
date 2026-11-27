@@ -62,7 +62,7 @@ struct MatchViewComponent: View {
                     .background(Color.cardBg, in: .rect(cornerRadius: 20))
                 }
                 .frame(maxWidth: .infinity)
-                .foregroundStyle(.titleText)
+                .foregroundStyle(.text)
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding(12)

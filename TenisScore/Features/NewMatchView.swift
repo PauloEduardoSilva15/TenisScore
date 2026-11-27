@@ -5,12 +5,10 @@
 //  Created by Igor Carrasco on 26/11/26.
 //
 
-import SwiftData
 import SwiftUI
 
 struct NewMatchView: View {
     @Environment(AppRouter.self) private var router
-    @Environment(\.modelContext) private var modelContext
 
     @State private var sets: MatchSetQuantity = .five
     @State private var playerQuantity: MatchPlayerQuantity = .singles
@@ -117,8 +115,7 @@ struct NewMatchView: View {
                         playerQuantity: playerQuantity,
                         setQuantity: sets
                     )
-                    modelContext.insert(match)
-                    router.push(.onMatchView(match: match))
+                    router.push(.resumeMatchView(match: match))
                 } catch {
                     fatalError("Falha ao criar novo modelo")
                 }
@@ -129,13 +126,12 @@ struct NewMatchView: View {
         .background {
             AppBackgroundImg(Image(.appBackgroundImg))
         }
-        .navigationTitle("Nova partida")
         .alert("Entradas inválidas", isPresented: $showInvalidInputsAlert) {
             Button("OK", role: .cancel) { }
         } message: {
             Text("Preencha o nome de todos os jogadores para iniciar a partida.")
         }
-        //        .navigationBarTitleDisplayMode(.large)
+        .navigationTitle("Nova partida")
         .toolbarTitleDisplayMode(.inlineLarge)
     }
 }

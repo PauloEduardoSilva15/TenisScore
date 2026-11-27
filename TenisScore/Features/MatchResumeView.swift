@@ -5,43 +5,53 @@
 //  Created by Igor Carrasco on 27/11/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct MatchResumeView: View {
     @Environment(AppRouter.self) private var router
-    
+    @Environment(\.modelContext) private var modelContext
+
+    let match: Match
+
     var body: some View {
         ScrollView {
-            LiquidGlassCard {
-                VStack {
-                    TextCapsule("Partida de Tênis")
+            VStack {
+                TextCapsule("Partida de Tênis")
+
+                HStack(spacing: 16) {
+                    ScoreTeamCard(side: match.sides[0], teamColor: .blue)
+                        .aspectRatio(1, contentMode: .fill)
                         .padding()
                     
-                    HStack(spacing: 16) {
-                        ScoreTeamCard(title: "Time 1", teamColor: .blue)
-                        ScoreTeamCard(title: "Time 2", teamColor: .red)
-                    }
-                    .padding()
-                    
-                    TextCapsule("5 Sets")
+                    ScoreTeamCard(side: match.sides[1], teamColor: .red)
+                        .aspectRatio(1, contentMode: .fill)
                         .padding()
-                    
-                    Divider()
-                        .padding(.horizontal)
-                    
-                    Text("Primeiro Game")
-                    
-                    ServeTextCapsule("Player", teamColor: .team1)
                 }
-                .padding(.bottom)
+
+                TextCapsule(match.setQuantity.name)
+
+                Divider()
+                    .padding(.vertical, 10)
+
+                Text("Primeiro Game")
+
+                ServeTextCapsule(
+                    match.curSet.curGame.whoServes.name,
+                    teamColor: match.sides.first {
+                        $0.players.contains { $0.id == match.curSet.curGame.whoServes.id }
+                    }?.id == match.sides.first?.id ? .team1 : .team2
+                )
             }
             .padding()
-            
+            .glassEffect(.regular, in: .rect(cornerRadius: 30))
+
             ConfirmButton("Iniciar primeiro Game") {
-                router.push(.onMatchView)
+                modelContext.insert(match)
+                router.push(.onMatchView(match: match))
             }
-            .padding()
         }
+        .padding()
         .scrollDismissesKeyboard(.interactively)
         .background {
             AppBackgroundImg(Image(.appBackgroundImg))
@@ -52,8 +62,21 @@ struct MatchResumeView: View {
 }
 
 #Preview {
-    NavigationView {
-        MatchResumeView()
+
+    if let match = try? Match(
+        players: [
+            Player(name: "Paulo"), Player(name: "João"), Player(name: "Vini"),
+            Player(name: "Igor"),
+        ],
+        playerQuantity: .pairs,
+        setQuantity: .three
+    ) {
+        NavigationView {
+            MatchResumeView(match: match)
+        }
+        .environment(AppRouter())
+    } else {
+        Text("Unable to create the preview match.")
     }
-    .environment(AppRouter())
+
 }

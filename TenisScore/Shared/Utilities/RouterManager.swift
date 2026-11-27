@@ -40,8 +40,8 @@ struct RouterManager: View {
         case .endMatchView:
             EndMatchView()
             
-        case .resumeMatchView:
-            MatchResumeView()
+        case .resumeMatchView(let match):
+            MatchResumeView(match: match)
         }
     }
 }

@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-public struct ScoreTeamCard: View {
+struct ScoreTeamCard: View {
     public enum TeamColor {
         case blue
         case red
@@ -21,45 +21,59 @@ public struct ScoreTeamCard: View {
         }
     }
 
-    private let title: String
+    private let side: MatchSide
     private let teamColor: TeamColor
 
-    public init(title: String, teamColor: TeamColor) {
-        self.title = title
+    init(side: MatchSide, teamColor: TeamColor) {
+        self.side = side
         self.teamColor = teamColor
     }
 
-    public var body: some View {
-        let shape = RoundedRectangle(cornerRadius: 30, style: .continuous)
+    var body: some View {
 
-        VStack {
-            Text(title)
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(.titleBtnText)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .minimumScaleFactor(0.8)
-
-            Spacer(minLength: 0)
+        ZStack {
+            RoundedRectangle(cornerRadius: 30)
+                .fill(teamColor.backgroundColor)
+                .glassEffect(
+                    .regular.tint(teamColor.backgroundColor),
+                    in: .rect(cornerRadius: 30)
+                )
+            VStack {
+                Text(side.name)
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
+                //                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Text(side.players.map(\.name).joined(separator: " · "))
+                    .foregroundStyle(.white)
+                //                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .padding()
         }
-        .padding(.top, 28)
-        .padding(.horizontal, 16)
-        .padding(.bottom, 16)
-        .frame(width: 156, height: 139)
-        .background(teamColor.backgroundColor, in: shape)
-        // Aplica o acabamento sutil de Liquid Glass mantendo a cor sólida vibrante
-        .glassEffect(.regular.tint(teamColor.backgroundColor), in: shape)
     }
 }
 
 #Preview {
-    ZStack {
-        Color(white: 0.1)
-            .ignoresSafeArea()
 
-        HStack(spacing: 16) {
-            ScoreTeamCard(title: "Time 1", teamColor: .blue)
-            ScoreTeamCard(title: "Time 2", teamColor: .red)
+    if let sides = try? MatchSide.makeSides(
+        teamNames: ["Team 1", "Team 2"],
+        players: ["Teste1", "Teste2"].map { Player(name: $0) },
+        playerQuantity: .singles,
+        randomizePlayers: true
+    ) {
+
+        ZStack {
+            Color(white: 0.1)
+                .ignoresSafeArea()
+
+            HStack(spacing: 16) {
+                ScoreTeamCard(side: sides[0], teamColor: .blue)
+                ScoreTeamCard(side: sides[1], teamColor: .red)
+            }
         }
+    } else {
+        Text("Error")
     }
 }

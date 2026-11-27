@@ -17,7 +17,7 @@ enum Route: Hashable {
     case newMatchView
     case onMatchView(match: Match)
     case endMatchView
-    case resumeMatchView
+    case resumeMatchView(match: Match)
 }
 
 /// Makes `Route` conform to `Identifiable`,
