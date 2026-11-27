@@ -8,6 +8,13 @@ import SwiftData
     /// whenever the navigation state changes.
     @State private var router = AppRouter()
     
+    /// This `init()` is to set the largeTitleText and titleTextAttributes to color white
+    init() {
+        let white: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().largeTitleTextAttributes = white
+        UINavigationBar.appearance().titleTextAttributes = white
+    }
+    
     var body: some Scene {
         WindowGroup {
             /// Root navigation container for the application.
