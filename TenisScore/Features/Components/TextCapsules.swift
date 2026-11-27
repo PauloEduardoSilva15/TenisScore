@@ -24,6 +24,7 @@ struct ServeTextCapsule: View {
                 .padding(.leading)
             Text("Saque: \(player)")
                 .font(.title3)
+                .foregroundStyle(.text)
             Image(systemName: "figure.tennis")
                 .padding(.trailing)
         }
@@ -46,6 +47,7 @@ struct TextCapsule: View {
     var body: some View {
         Text(text)
             .font(.title3)
+            .foregroundStyle(.text)
             .frame(minWidth: 205, minHeight: 39)
             .background{
                 Capsule()

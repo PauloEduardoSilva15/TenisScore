@@ -35,7 +35,7 @@ public struct ScoreTeamCard: View {
         VStack {
             Text(title)
                 .font(.title2.weight(.semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(.titleBtnText)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .minimumScaleFactor(0.8)
