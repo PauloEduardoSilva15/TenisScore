@@ -18,7 +18,8 @@ import SwiftUI
 @Observable
 final class AppRouter {
     /// Navigation stack used by `NavigationStack`.
-    var path = NavigationPath()
+//    var path = NavigationPath()
+    var path: [Route] = []
     
     /// Currently presented sheet, if any.
     var currentSheet: Route?
@@ -27,18 +28,22 @@ final class AppRouter {
     ///
     /// - Parameter route: The destination route to be presented.
     func push(_ route: Route) {
+        guard path.last != route else { return }
+        
         path.append(route)
     }
     
     /// Removes the most recently pushed route from the navigation stack.
     func pop() {
+        guard !path.isEmpty else { return }
+        
         path.removeLast()
     }
     
     /// Removes all routes from the navigation stack,
     /// returning the user to the root screen.
     func popAll() {
-        path.removeLast(path.count)
+        path.removeAll()
     }
     
     /// Presents a sheet for the specified route.

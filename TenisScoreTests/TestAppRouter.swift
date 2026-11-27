@@ -31,10 +31,11 @@ struct TestAppRouter {
     @Test("Remove last route from path")
     func testPopLastRoute() {
         let router = AppRouter()
+        router.push(.endMatchView)
         router.push(.homeScreen)
         router.push(.endMatchView)
         router.pop()
-        #expect(router.path.count == 1)
+        #expect(router.path.last == .homeScreen)
     }
     
     @Test("Clean path routes")
