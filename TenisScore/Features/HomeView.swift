@@ -11,6 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AppRouter.self) private var router
 
+    #warning("Faz sentido uma query se eu já estou observando um contexto? Logo não preciso importar SwiftData aqui (e em nenhuma outra view)")
     @Query private var matches: [Match]
     @Environment(\.modelContext) private var modelContext
 
@@ -39,19 +40,20 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button {
-                    do {
-                        modelContext.insert(
-                            try Match(
-                                players: [
-                                    Player(name: "Nome 1"), Player(name: "Nome 2"),
-                                ],
-                                playerQuantity: .singles,
-                                setQuantity: .three
-                            )
-                        )
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+                    router.push(.newMatchView)
+//                    do {
+//                        modelContext.insert(
+//                            try Match(
+//                                players: [
+//                                    Player(name: "Nome 1"), Player(name: "Nome 2"),
+//                                ],
+//                                playerQuantity: .singles,
+//                                setQuantity: .three
+//                            )
+//                        )
+//                    } catch {
+//                        print(error.localizedDescription)
+//                    }
                 } label: {
                     Image(systemName: "plus")
                 }
