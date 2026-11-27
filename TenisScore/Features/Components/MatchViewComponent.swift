@@ -66,7 +66,7 @@ struct MatchViewComponent: View {
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding(12)
-            .glassEffect(.regular, in: .rect(cornerRadius: 30))
+            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 30))
         }
     }
 }

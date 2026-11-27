@@ -5,26 +5,29 @@
 //  Created by Igor Carrasco on 26/11/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct NewMatchView: View {
     @Environment(AppRouter.self) private var router
-    
+    @Environment(\.modelContext) private var modelContext
+
     @State private var sets: MatchSetQuantity = .five
     @State private var playerQuantity: MatchPlayerQuantity = .singles
     @State private var names = Array(repeating: "", count: 4)
-    
+    @State private var showInvalidInputsAlert = false
+
     @State private var isToggle1 = false
     @State private var isToggle2 = false
-    
+
     private let verticalFieldPadding: CGFloat = 12
     private let horizontalFieldPadding: CGFloat = 15
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 FormSectionTitle("Tênis")
-                
+
                 LiquidGlassCard {
                     HStack {
                         Text("Número de sets")
@@ -39,7 +42,7 @@ struct NewMatchView: View {
                     .padding(.horizontal, horizontalFieldPadding)
                 }
                 .padding(.bottom)
-                
+
                 LiquidGlassCard {
                     HStack {
                         Text("Número de jogadores")
@@ -55,18 +58,21 @@ struct NewMatchView: View {
                 }
             }
             .padding()
-            
+
             VStack(alignment: .leading) {
                 FormSectionTitle("Jogadores")
-                
+
                 LiquidGlassCard {
                     VStack {
-                        PlayersSection(playerQuantity: playerQuantity, names: $names)
+                        PlayersSection(
+                            playerQuantity: playerQuantity,
+                            names: $names
+                        )
                     }
                 }
             }
             .padding(.horizontal)
-            
+
             VStack(alignment: .leading) {
                 LiquidGlassCard {
                     Toggle(isOn: $isToggle1) {
@@ -76,13 +82,15 @@ struct NewMatchView: View {
                     .padding(.horizontal, horizontalFieldPadding)
                 }
                 .padding(.bottom, 7)
-                
-                Text("Caso não selecione esse toggle, as equipes serão distribuídas em ordem de inserção")
-                    .font(.caption2)
-                    .foregroundStyle(.white)
+
+                Text(
+                    "Caso não selecione esse toggle, as equipes serão distribuídas em ordem de inserção"
+                )
+                .font(.caption2)
+                .foregroundStyle(.white)
             }
             .padding()
-            
+
             VStack(alignment: .leading) {
                 LiquidGlassCard {
                     Toggle(isOn: $isToggle2) {
@@ -93,9 +101,27 @@ struct NewMatchView: View {
                 }
             }
             .padding(.horizontal)
-            
+
             ConfirmButton("Iniciar partida") {
-                router.push(.resumeMatchView)
+                let playerNames = names.prefix(playerQuantity.totalPlayers).map {
+                    $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+                guard playerNames.allSatisfy({ !$0.isEmpty }) else {
+                    showInvalidInputsAlert = true
+                    return
+                }
+
+                do {
+                    let match = try Match(
+                        players: playerNames.map { Player(name: $0) },
+                        playerQuantity: playerQuantity,
+                        setQuantity: sets
+                    )
+                    modelContext.insert(match)
+                    router.push(.onMatchView(match: match))
+                } catch {
+                    fatalError("Falha ao criar novo modelo")
+                }
             }
             .padding()
         }
@@ -104,18 +130,23 @@ struct NewMatchView: View {
             AppBackgroundImg(Image(.appBackgroundImg))
         }
         .navigationTitle("Nova partida")
-//        .navigationBarTitleDisplayMode(.large)
+        .alert("Entradas inválidas", isPresented: $showInvalidInputsAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Preencha o nome de todos os jogadores para iniciar a partida.")
+        }
+        //        .navigationBarTitleDisplayMode(.large)
         .toolbarTitleDisplayMode(.inlineLarge)
     }
 }
 
 struct FormSectionTitle: View {
     let text: String
-    
+
     init(_ text: String) {
         self.text = text
     }
-    
+
     var body: some View {
         Text(text)
             .font(.subheadline)
@@ -134,7 +165,7 @@ struct PlayersSection: View {
         VStack {
             ForEach(0..<playerQuantity.totalPlayers, id: \.self) { index in
                 TextField("Jogador \(index + 1)", text: $names[index])
-                
+
                 if index < playerQuantity.totalPlayers - 1 {
                     Divider()
                 }
@@ -153,7 +184,8 @@ extension MatchPlayerQuantity {
     /// - Returns: Exactly ``totalPlayers`` names.
     func resolvedNames(from typed: [String]) -> [String] {
         (0..<totalPlayers).map { index in
-            let name = index < typed.count
+            let name =
+                index < typed.count
                 ? typed[index].trimmingCharacters(in: .whitespaces)
                 : ""
             return name.isEmpty ? "Jogador \(index + 1)" : name

@@ -15,7 +15,7 @@ import Foundation
 enum Route: Hashable {
     case homeScreen
     case newMatchView
-    case onMatchView
+    case onMatchView(match: Match)
     case endMatchView
     case resumeMatchView
 }
