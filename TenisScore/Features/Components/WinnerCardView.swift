@@ -23,9 +23,9 @@ struct WinnerCardView: View {
         case .match:
             return "Fim da Partida"
         case .game:
-            return "Fim do \(match.curSet.games.count)º Game"
+            return "Fim do \(match.curSet.curGameIndex+1)º Game"
         case .set:
-            return "Fim do \(match.curSet.games.count)º Set"
+            return "Fim do \(match.curSetIndex+1)º Set"
         }
     }
 
@@ -34,9 +34,9 @@ struct WinnerCardView: View {
         case .match:
             return match.winner?.name ?? "Ninguém"
         case .game:
-            return match.sets.last?.games.last?.winner?.name ?? "Ninguém"
+            return match.curSet.games[match.curSet.curGameIndex].winner?.name ?? "Ninguém"
         case .set:
-            return match.sets.last?.winner?.name ?? "Ninguém"
+            return match.curSet.winner?.name ?? "Ninguém"
         }
     }
 
@@ -65,12 +65,15 @@ struct WinnerCardView: View {
                             .bold()
                         Image(systemName: "figure.tennis")
                     }
-                    if match.curSet.games.count % 2 == 1 {
+                    if match.curSet.games.count != 1 && match.curSet.games.count % 2 == 1 {
                         Text("Troquem o lado da quadra")
                     }
                 }
+                
             }.padding()
             .frame(height: 200)
+            
+           
         }
     }
 }
@@ -86,11 +89,13 @@ private func makePreviewMatch() -> Match {
         setQuantity: .three,
         randomizePlayers: false
     )
-
+    
     // Finishes the initial game. Match then starts a second game in the same set.
-    for _ in 0..<4 {
+    
+    for _ in 0...8{
         try! match.incrementPoints(for: match.sides[0])
     }
+    
     return match
 }
 
