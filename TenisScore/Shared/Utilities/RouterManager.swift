@@ -29,7 +29,7 @@ struct RouterManager: View {
     var body: some View {
         switch route {
         case .homeScreen:
-            Home()
+            HomeView()
             
         case .newMatchView:
             NewMatchView()

@@ -65,7 +65,6 @@ struct AppBackgroundImg: View {
     
     private func filledImage(in size: CGSize) -> some View {
         image
-            .resizable()
             .scaledToFill()
             .frame(width: size.width, height: size.height)
             .clipped()

@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct Home: View {
+struct HomeView: View {
     @Environment(AppRouter.self) private var router
 
     @Query private var matches: [Match]
@@ -64,7 +64,7 @@ struct Home: View {
 
 #Preview {
     NavigationView {
-        Home()
+        HomeView()
     }
     .environment(AppRouter())
 }

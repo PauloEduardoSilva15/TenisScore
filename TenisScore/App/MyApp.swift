@@ -15,7 +15,7 @@ import SwiftData
             /// Navigation is driven by `AppRouter` through its `NavigationPath`.
             NavigationStack(path: $router.path) {
                 Group {
-                    Home()
+                    HomeView()
                 }
                 .navigationDestination(for: Route.self) { route in
                     RouterManager(route: route)
