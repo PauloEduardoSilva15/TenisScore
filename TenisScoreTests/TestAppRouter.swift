@@ -42,7 +42,7 @@ struct TestAppRouter {
         let router = AppRouter()
         router.push(.homeScreen)
         router.push(.endMatchView)
-        router.push(.matchCreationView)
+        router.push(.newMatchView)
         router.push(.onMatchView)
         
         router.popAll()
@@ -54,14 +54,14 @@ struct TestAppRouter {
     @Test("Show sheet")
     func testShowSheet() {
         let router = AppRouter()
-        router.showSheet(.matchCreationView)
-        #expect(router.currentSheet == .matchCreationView)
+        router.showSheet(.newMatchView)
+        #expect(router.currentSheet == .newMatchView)
     }
     
     @Test("Close sheet")
     func testCloseSheet() {
         let router = AppRouter()
-        router.showSheet(.matchCreationView)
+        router.showSheet(.newMatchView)
         
         router.closeSheet()
         #expect(router.currentSheet == nil)

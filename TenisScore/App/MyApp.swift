@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main struct MyApp: App {
     /// Stores the application's navigation router.
@@ -14,13 +15,17 @@ import SwiftUI
             /// Navigation is driven by `AppRouter` through its `NavigationPath`.
             NavigationStack(path: $router.path) {
                 Group {
-                    Home()
+                    HomeView()
                 }
                 .navigationDestination(for: Route.self) { route in
                     RouterManager(route: route)
                 }
             }
             .environment(router)
+            .modelContainer(for: [
+                Match.self, MatchSet.self, Game.self,
+                GameSidePoints.self, MatchSide.self, Player.self
+            ])
         }
     }
 }

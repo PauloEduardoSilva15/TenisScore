@@ -18,7 +18,6 @@ public struct LiquidGlassCard<Content: View>: View {
         let shape = RoundedRectangle(cornerRadius: 30, style: .continuous)
 
         content
-            //.frame(maxWidth: .infinity, maxHeight: .infinity)
             .glassEffect(.regular, in: shape)
             .overlay {
                 shape

@@ -44,7 +44,7 @@ struct AppBackgroundImg: View {
                     .blur(radius: blurRadius, opaque: true)
                     .mask {
                         LinearGradient(
-                            colors: [.clear, .black],
+                            colors: [.black, .black],
                             startPoint: .top,
                             endPoint: .bottom
                         )
