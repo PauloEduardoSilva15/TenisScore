@@ -14,11 +14,9 @@ public struct ScoreTeamCard: View {
         var backgroundColor: Color {
             switch self {
             case .blue:
-                // Hex #2C7EB4 extraído do seu Figma
-                return Color(red: 44 / 255, green: 126 / 255, blue: 180 / 255)
+                return .team1
             case .red:
-                // Vermelho calibrado com o mesmo peso visual e contraste do azul
-                return Color(red: 196 / 255, green: 56 / 255, blue: 56 / 255)
+                return .team2
             }
         }
     }
