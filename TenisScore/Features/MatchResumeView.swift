@@ -8,11 +8,29 @@
 import SwiftUI
 
 struct MatchResumeView: View {
+    @Environment(AppRouter.self) private var router
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            Text("Aqui é o resumo da sua partida")
+            
+            ConfirmButton("Começar partida") {
+                router.push(.onMatchView)
+            }
+            .padding()
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .background {
+            AppBackgroundImg(Image(.appBackgroundImg))
+        }
+        .navigationTitle("Resumo da partida")
+        .toolbarTitleDisplayMode(.inlineLarge)
     }
 }
 
 #Preview {
-    MatchResumeView()
+    NavigationView {
+        MatchResumeView()
+    }
+    .environment(AppRouter())
 }
