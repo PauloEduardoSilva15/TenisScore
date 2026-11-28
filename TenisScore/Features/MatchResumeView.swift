@@ -15,17 +15,18 @@ struct MatchResumeView: View {
     let match: Match
 
     var body: some View {
-        ScrollView {
+        VStack {
             VStack {
                 TextCapsule("Partida de Tênis")
+                    .padding(.top, 24)
 
                 HStack(spacing: 16) {
                     ScoreTeamCard(side: match.sides[0], teamColor: .blue)
-                        .aspectRatio(1, contentMode: .fill)
+                        .aspectRatio(1, contentMode: .fit)
                         .padding()
                     
                     ScoreTeamCard(side: match.sides[1], teamColor: .red)
-                        .aspectRatio(1, contentMode: .fill)
+                        .aspectRatio(1, contentMode: .fit)
                         .padding()
                 }
 
@@ -45,14 +46,16 @@ struct MatchResumeView: View {
             }
             .padding()
             .glassEffect(.regular, in: .rect(cornerRadius: 30))
-
+            
+            Spacer()
+            
             ConfirmButton("Iniciar primeiro Game") {
                 modelContext.insert(match)
                 router.push(.onMatchView(match: match))
             }
+            
         }
         .padding()
-        .scrollDismissesKeyboard(.interactively)
         .background {
             AppBackgroundImg(Image(.appBackgroundImg))
         }

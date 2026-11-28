@@ -29,10 +29,16 @@ struct NewMatchView: View {
                 LiquidGlassCard {
                     HStack {
                         Text("Número de sets")
+                            .foregroundStyle(
+                                .text
+                            )
                         Spacer()
                         Picker("Sets", selection: $sets) {
                             ForEach(MatchSetQuantity.allCases) {
                                 Text($0.name)
+                                    .foregroundStyle(
+                                        .text
+                                    )
                             }
                         }
                     }
@@ -44,10 +50,16 @@ struct NewMatchView: View {
                 LiquidGlassCard {
                     HStack {
                         Text("Número de jogadores")
+                            .foregroundStyle(
+                                .text
+                            )
                         Spacer()
                         Picker("Sets", selection: $playerQuantity) {
                             ForEach(MatchPlayerQuantity.allCases) {
                                 Text($0.name)
+                                    .foregroundStyle(
+                                        .text
+                                    )
                             }
                         }
                     }
@@ -75,6 +87,9 @@ struct NewMatchView: View {
                 LiquidGlassCard {
                     Toggle(isOn: $isToggle1) {
                         Text("Sortear membros dos times")
+                            .foregroundStyle(
+                                .text
+                            )
                     }
                     .padding(.vertical, verticalFieldPadding)
                     .padding(.horizontal, horizontalFieldPadding)
@@ -85,7 +100,7 @@ struct NewMatchView: View {
                     "Caso não selecione esse toggle, as equipes serão distribuídas em ordem de inserção"
                 )
                 .font(.caption2)
-                .foregroundStyle(.white)
+                .foregroundStyle(.titleBtnText)
             }
             .padding()
 
@@ -93,6 +108,9 @@ struct NewMatchView: View {
                 LiquidGlassCard {
                     Toggle(isOn: $isToggle2) {
                         Text("Saque aleatório")
+                            .foregroundStyle(
+                                .text
+                            )
                     }
                     .padding(.vertical, verticalFieldPadding)
                     .padding(.horizontal, horizontalFieldPadding)
@@ -122,7 +140,7 @@ struct NewMatchView: View {
             }
             .padding()
         }
-        .scrollDismissesKeyboard(.interactively)
+        .scrollDismissesKeyboard(.immediately)
         .background {
             AppBackgroundImg(Image(.appBackgroundImg))
         }

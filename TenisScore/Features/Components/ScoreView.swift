@@ -13,12 +13,14 @@ struct ScoreView: View {
 
     var body: some View {
         VStack(alignment: .center) {
+            Spacer()
             Text("Placar")
                 .font(.title)
                 .bold()
                 .foregroundStyle(
                     .text
                 )
+            Spacer()
             HStack(spacing: 16) {
                 VStack {
                     Text(match.sides[0].name)
@@ -50,8 +52,9 @@ struct ScoreView: View {
                 }
                 .frame(maxWidth: .infinity)
             }
+            Spacer()
             Divider()
-
+            Spacer()
             HStack(spacing: 16) {
                 Text(match.setsWon(by: match.sides[0]), format: .number)
                     .foregroundStyle(Color("Team1"))
@@ -71,8 +74,9 @@ struct ScoreView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
             }
+            Spacer()
             Divider()
-
+            Spacer()
             HStack(spacing: 16) {
                 Text(match.sets.last?.gamesWon(by: match.sides[0]) ?? 0, format: .number)
                     .foregroundStyle(Color("Team1"))
@@ -92,6 +96,7 @@ struct ScoreView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
             }
+            Spacer()
         }
         .padding()
         .glassEffect(.regular, in: .rect(cornerRadius: 26.0))
